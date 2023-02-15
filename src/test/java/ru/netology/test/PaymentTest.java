@@ -5,11 +5,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
+import ru.netology.data.SQLHelper;
 import ru.netology.pages.MainPage;
 import ru.netology.pages.PayPage;
 
 import static com.codeborne.selenide.Selenide.closeWindow;
 import static com.codeborne.selenide.Selenide.open;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PaymentTest {
     MainPage mainPage = open("http://localhost:8080/", MainPage.class);
@@ -32,6 +34,7 @@ public class PaymentTest {
         var payPage = new PayPage();
         payPage.insertPayCardData(cardInfo);
         payPage.successFromBank();
+        assertEquals("APPROVED", SQLHelper.getPaymentCardData().getStatus());
     }
 
     @Test
@@ -41,6 +44,7 @@ public class PaymentTest {
         var payPage = new PayPage();
         payPage.insertPayCardData(cardInfo);
         payPage.errorRejectedFromBank();
+        assertEquals("DECLINE", SQLHelper.getPaymentCardData().getStatus());
     }
 
     @Test
@@ -50,6 +54,7 @@ public class PaymentTest {
         var payPage = new PayPage();
         payPage.insertPayCardData(cardInfo);
         payPage.errorRejectedFromBank();
+        assertEquals("DECLINE", SQLHelper.getPaymentCardData().getStatus());
     }
 
     @Test
@@ -128,6 +133,7 @@ public class PaymentTest {
         var payPage = new PayPage();
         payPage.insertPayCardData(cardInfo);
         payPage.successFromBank();
+        assertEquals("APPROVED", SQLHelper.getPaymentCardData().getStatus());
     }
 
     @Test
@@ -139,6 +145,7 @@ public class PaymentTest {
         var payPage = new PayPage();
         payPage.insertPayCardData(cardInfo);
         payPage.successFromBank();
+        assertEquals("APPROVED", SQLHelper.getPaymentCardData().getStatus());
     }
 
     @Test
@@ -215,6 +222,7 @@ public class PaymentTest {
         var payPage = new PayPage();
         payPage.insertPayCardData(cardInfo);
         payPage.successFromBank();
+        assertEquals("APPROVED", SQLHelper.getPaymentCardData().getStatus());
     }
 
     @Test
@@ -224,6 +232,7 @@ public class PaymentTest {
         var payPage = new PayPage();
         payPage.insertPayCardData(cardInfo);
         payPage.successFromBank();
+        assertEquals("APPROVED", SQLHelper.getPaymentCardData().getStatus());
     }
 
     @Test
@@ -254,12 +263,13 @@ public class PaymentTest {
     }
 
     @Test
-    void shouldDeclineTransactionWithNameOwnerWithDash (){
+    void shouldApprovedTransactionWithNameOwnerWithDash (){
         mainPage.payPage();
         var cardInfo = DataHelper.generatedDataWithParametrizedOwnerName("Bob-Jon");
         var payPage = new PayPage();
         payPage.insertPayCardData(cardInfo);
         payPage.successFromBank();
+        assertEquals("APPROVED", SQLHelper.getPaymentCardData().getStatus());
     }
 
     @Test
